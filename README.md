@@ -19,14 +19,16 @@ by humans.
 A xpatch is composed by a list of changes. Each has a header and a list of
 hunks. Here is a simple example:
 
-    --- a.bin
-    +++ b.bin
-    @@ u8,u32 -0x1897d8,1 +0x1897d8,1 @@
-    - 0x1b7358 # 1799000
-    + 0x1d4c00 # 1920000
-    @@ u8,u32 -0x189ca8,1 +0x189ca8,1 @@
-    - 0x1b7358 # 1799000
-    + 0x1d4c00 # 1920000
+```diff
+--- a.bin
++++ b.bin
+@@ u8,u32 -0x1897d8,1 +0x1897d8,1 @@
+- 0x1b7358 # 1799000
++ 0x1d4c00 # 1920000
+@@ u8,u32 -0x189ca8,1 +0x189ca8,1 @@
+- 0x1b7358 # 1799000
++ 0x1d4c00 # 1920000
+```
 
 The header:
 
@@ -141,10 +143,12 @@ By default, constants must be separated by white spaces. But a custom format may
 be specified in the hunk control line to modify the default parsing format by
 following the printf notation. For example:
 
-    @@ u8,u8,%2x -0x189ca8,4 +0x189ca8,4 @@
-    - 0146     # mov r1, r0
-    - 6846     # mov r0, sp
-    + 4ff2bafc # bl 0x254526
+```diff
+@@ u8,u8,%2x -0x189ca8,4 +0x189ca8,4 @@
+- 0146     # mov r1, r0
+- 6846     # mov r0, sp
++ 4ff2bafc # bl 0x254526
+```
 
 Specifies that unsigned integers of 8 bits are given as pairs of hexadecimal
 digits. Notice that there are no spaces among the constants. The value:
@@ -155,10 +159,12 @@ Is parsed as 0x01 and 0x46 unsigned integers of 8 bits in little endian.
 
 On the other hand, the following hunk is invalid:
 
-    @@ u8,u8,%x -0x189ca8,4 +0x189ca8,4 @@
-    - 0146     # mov r1, r0
-    - 6846     # mov r0, sp
-    + 4ff2bafc # bl 0x254526
+```diff
+@@ u8,u8,%x -0x189ca8,4 +0x189ca8,4 @@
+- 0146     # mov r1, r0
+- 6846     # mov r0, sp
++ 4ff2bafc # bl 0x254526
+```
 
 As the %x doesn't define a length, so the constants are separated by white
 space, but the values don't fit inside a unsigned integer of 8 bits.
@@ -187,9 +193,11 @@ Examples:
 The binary format is useful to write sequences of just bits interpreted as
 little endian numbers of the defined width:
 
-    @@ u8,u8,%b -0x8004,2 +0x8004,2 @@
-    - 0011_1001 0010_1010
-    + 1111_0011 0111_0011
+```diff
+@@ u8,u8,%b -0x8004,2 +0x8004,2 @@
+- 0011_1001 0010_1010
++ 1111_0011 0111_0011
+```
 
 Changes two bytes at address 0x8004. The original bytes are 0b00111001 and
 0b00101010. Notice how avoiding the 0b prefix and using _ makes it more
