@@ -28,7 +28,7 @@ EOF
 
 # Compute xdiff and reaply it again
 
-xdiff a.bin b.bin | tee > 2.xpatch
+xdiff a.bin b.bin > 2.xpatch
 cat 2.xpatch
 rm b.bin
 xpatch < 2.xpatch
