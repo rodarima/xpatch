@@ -542,17 +542,15 @@ parse_diff_file(const char *prefix, char *line, char fpath[PATH_MAX])
 	char *start = line + strlen(prefix);
 	char *tab = strchr(start, '\t');
 
-	if (tab == NULL) {
-		err("missing tab in file line: '%s'", line);
-		return -1;
-	}
+	/* Accept filenames without extra metadata on the right */
+	if (tab != NULL) {
+		if (start == tab) {
+			err("empty file name: '%s'", line);
+			return -1;
+		}
 
-	if (start == tab) {
-		err("empty file name: '%s'", line);
-		return -1;
+		*tab = '\0';
 	}
-
-	*tab = '\0';
 
 	char *file = start;
 
