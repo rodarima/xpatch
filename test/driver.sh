@@ -9,6 +9,10 @@ testname="$dir/$1"
 workdir="${testname}.dir"
 
 export PATH="${XPATCH_BIN_DIR}:$PATH"
+if [ -n "$XPATCH_PATH" ]; then
+	export PATH="${XPATCH_PATH}:$PATH"
+fi
+
 export inputs=$(readlink -f "$XPATCH_INPUTS_DIR")
 
 rm -rf "${workdir}"
